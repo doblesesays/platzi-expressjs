@@ -4,6 +4,9 @@ const path = require('path');
 const productsRouter = require('./routes/products');
 const productsApiRouter = require('./routes/api/products');
 
+//Body-parse
+app.use(express.json());
+
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, './views'));
