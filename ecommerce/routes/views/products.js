@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const productMocks = require('../utis/mocks/products');
 const ProductsService = require('../../services/products');
 
 const productService = new ProductsService();
