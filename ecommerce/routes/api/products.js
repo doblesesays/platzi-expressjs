@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const ProductsService = require('../../services/products'); 
+const ProductsService = require('../../services/products');
+const validationHandler = require('../../utis/middlewares/validationHandler')
+
+const  { 
+    productIdSchema, productTagSchema, createProductSchema, updateProductSchema
+} = require('../../utis/schemas/product');
 
 const productService = new ProductsService();
 
@@ -9,7 +14,6 @@ router.get('/', async (req, res, next) => {
     console.log("req", req.query);
 
     try {
-        throw new Error('this is an error on the API');
         const products = await productService.getProducts({tags})
     
         res.status(200).json({
@@ -38,9 +42,8 @@ router.get('/:productId', async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', validationHandler(createProductSchema), async (req, res, next) => {
     const { body: product } = req;
-    console.log("req", req.body);
 
     try {
         const createdProduct = await productService.createProduct({ product })
@@ -54,7 +57,7 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', validationHandler({ productId: productIdSchema}, 'params'), validationHandler(updateProductSchema), async (req, res, next) => {
     const { productId } = req.params;
     const { body: product } = req;
     console.log("req", req.params, req.body);

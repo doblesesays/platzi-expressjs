@@ -1,5 +1,8 @@
+const joi = require('joi');
+
 function validate(data, schema) {
-    return false;
+    const { error } = joi.validate(data, schema);
+    return error;
 }
 
 function validationHandler(schema, check = "body") {
