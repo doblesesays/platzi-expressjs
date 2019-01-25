@@ -1,5 +1,5 @@
 const { config } = require('../config')
-const { MongoClient } = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 
 // codificando user y password
 // para que no haya problemas con caracteres especiales
@@ -14,10 +14,6 @@ class MongoLib {
         this.client = new MongoClient(MONGO_URI, { useNewUrlParser: true })
         this.dbName = DB_NAME;
     }
-    // constructor() {
-        // this.client = new MongoClient()
-        // this.dbName = DB_NAME;
-    // }
 
     connect() {
         return new Promise((resolve, reject) => {
@@ -30,14 +26,6 @@ class MongoLib {
             })
         })
     }
-    // connect() {
-    //     return new Promise((resolve, reject) => {
-    //         this.client.connect(MONGO_URI, { useNewUrlParser: true }, (err, client) => {
-    //             console.log('Connected succesfully to mongo');
-    //             resolve(client.db(this.dbName))
-    //         })
-    //     })
-    // }
 
     getAll(collection, query) {
         return this.connect().then((db) => {
@@ -46,6 +34,39 @@ class MongoLib {
                 .find(query)
                 .toArray();
         })
+    }
+
+    get(collection, id) {
+        return this.connect().then((db) => {
+            return db
+                .collection(collection)
+                .findOne({ _id: ObjectId(id) })
+        })
+    }
+
+    create(collection, data) {
+        return this.connect().then((db) => {
+            return db
+                .collection(collection)
+                .insertOne(data)
+        }).then(result => result.insertedId)
+    }
+
+    update(collection, id, data) {
+        console.log("DATA: ", data)
+        return this.connect().then((db) => {
+            return db
+                .collection(collection)
+                .updateOne({ _id: ObjectId(id) }, {$set: data}, {upsert:true})
+        }).then(result => result.upsertedId || id)
+    }
+
+    delete(collection, id) {
+        return this.connect().then((db) => {
+            return db
+                .collection(collection)
+                .deleteOne({ _id: ObjectId(id) })
+        }).then(() => id)
     }
 }
 
