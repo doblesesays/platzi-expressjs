@@ -5,6 +5,7 @@ const productsApiRouter = require('./routes/api/products');
 const { logErrors, errorHandler, clientErrorHandler, wrapErrors } = require('./utis/middlewares/errorsHandler')
 const isRequestAjaxOrApi = require('./utis/isRequestAjaxOrApi');
 const boom = require('boom');
+const authApiRouter = require('./routes/api/auth')
 
 // app
 const app = express();
@@ -22,6 +23,7 @@ app.set('view engine', 'pug');
 // routes
 app.use('/products', productsRouter);
 app.use('/api/products', productsApiRouter);
+app.use('/api/auth', authApiRouter);
 
 // redirect
 app.get('/', (req, res) => {
