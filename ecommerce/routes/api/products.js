@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const ProductsService = require('../../services/products');
 const validationHandler = require('../../utis/middlewares/validationHandler')
+const passport = require('passport')
 
 const  { 
     productIdSchema, productTagSchema, createProductSchema, updateProductSchema
 } = require('../../utis/schemas/product');
+
+// JWT strategy
+require('../../utis/auth/strategies/jwt')
 
 const productService = new ProductsService();
 
@@ -57,7 +61,11 @@ router.post('/', validationHandler(createProductSchema), async (req, res, next) 
     }
 })
 
-router.put('/:productId', validationHandler({ productId: productIdSchema}, 'params'), validationHandler(updateProductSchema), async (req, res, next) => {
+router.put('/:productId',
+    passport.authenticate('jwt', {session: false}),
+    validationHandler({ productId: productIdSchema}, 'params'),
+    validationHandler(updateProductSchema), async (req, res, next) => {
+
     const { productId } = req.params;
     const { body: product } = req;
     console.log("req", req.params, req.body);
@@ -74,7 +82,7 @@ router.put('/:productId', validationHandler({ productId: productIdSchema}, 'para
     }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
     const { productId } = req.params;
     console.log("req", req.params);
 
