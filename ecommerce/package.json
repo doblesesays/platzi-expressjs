@@ -6,11 +6,12 @@
   "scripts": {
     "test": "mocha --exit",
     "test:cover": "nyc npm run test",
-    "start": "node index",
+    "start": "set NODE_ENV=production& node index",
     "dev": "nodemon index",
     "dev:inspect": "nodemon --inspect index",
     "dev:debug": "set DEBUG=express:*,app:*& npm run dev",
-    "debug": "set DEBUG=express:*,app:*& npm run start"
+    "debug": "set DEBUG=express:*,app:*& npm run start",
+    "build": "cd public/assets && cleancss -o main.min.css main.css"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "chalk": "^2.4.2",
+    "clean-css-cli": "^4.2.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
     "nyc": "^13.1.0",
