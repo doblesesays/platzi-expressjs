@@ -1,5 +1,6 @@
 const { config } = require('../config')
 const { MongoClient, ObjectId } = require('mongodb')
+const debug = require('debug')('app:mongo');
 
 // codificando user y password
 // para que no haya problemas con caracteres especiales
@@ -19,9 +20,9 @@ class MongoLib {
         return new Promise((resolve, reject) => {
             this.client.connect((err) => {
                 if (err) {
-                    reject(error);
+                    reject(err);
                 }
-                console.log('Connected succesfully to mongo');
+                debug('Connected succesfully to mongo');
                 resolve(this.client.db(this.dbName))
             })
         })
@@ -53,7 +54,6 @@ class MongoLib {
     }
 
     update(collection, id, data) {
-        console.log("DATA: ", data)
         return this.connect().then((db) => {
             return db
                 .collection(collection)

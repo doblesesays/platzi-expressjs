@@ -6,6 +6,7 @@ const { logErrors, errorHandler, clientErrorHandler, wrapErrors } = require('./u
 const isRequestAjaxOrApi = require('./utis/isRequestAjaxOrApi');
 const boom = require('boom');
 const authApiRouter = require('./routes/api/auth')
+const debug = require('debug')("app:server");
 
 // app
 const app = express();
@@ -50,5 +51,5 @@ app.use(errorHandler);
 
 // server
 const server = app.listen(8000, () => {
-    console.log(`Listening http://localhost:${server.address().port}`);
+    debug(`Listening http://localhost:${server.address().port}`);
 });
