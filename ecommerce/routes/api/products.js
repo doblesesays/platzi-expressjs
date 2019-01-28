@@ -2,6 +2,8 @@ const express = require('express');
 const ProductsService = require('../../services/products');
 const validationHandler = require('../../utis/middlewares/validationHandler')
 const passport = require('passport')
+const cacheResponse = require('../../utis/cacheResponse');
+const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../../utis/time')
 
 const  { 
     productIdSchema, productTagSchema, createProductSchema, updateProductSchema
@@ -17,6 +19,7 @@ function productsApi(app) {
     const productService = new ProductsService();
     
     router.get('/', async (req, res, next) => {
+        cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
         const { tags } = req.query;
     
         try {
@@ -33,6 +36,7 @@ function productsApi(app) {
     })
     
     router.get('/:productId', async (req, res, next) => {
+        cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
         const { productId } = req.params;
     
         try {

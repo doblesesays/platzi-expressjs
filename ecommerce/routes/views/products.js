@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const ProductsService = require('../../services/products');
 const { config } = require('../../config');
+const cacheResponse = require('../../utis/cacheResponse');
+const { FIVE_MINUTES_IN_SECONDS  } = require('../../utis/time')
 
 const productService = new ProductsService();
 
 router.get('/', async (req, res, next) => {
+    cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
     const { tags } = req.query;
 
     try {
