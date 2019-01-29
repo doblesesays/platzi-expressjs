@@ -6,12 +6,12 @@
   "scripts": {
     "test": "mocha --exit",
     "test:cover": "nyc npm run test",
-    "start": "set NODE_ENV=production& node index",
+    "start": "node index",
     "dev": "nodemon index",
     "dev:inspect": "nodemon --inspect index",
     "dev:debug": "set DEBUG=express:*,app:*& npm run dev",
     "debug": "set DEBUG=express:*,app:*& npm run start",
-    "build": "cd public/assets && cleancss -o main.min.css main.css"
+    "build": "set NODE_ENV=production& cd public/assets && cleancss -o main.min.css main.css"
   },
   "keywords": [],
   "author": "",
