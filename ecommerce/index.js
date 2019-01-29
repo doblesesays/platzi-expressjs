@@ -52,6 +52,6 @@ app.use(clientErrorHandler);
 app.use(errorHandler);
 
 // server
-const server = app.listen(8000, () => {
+const server = app.listen(process.env.PORT || 8000, () => {
     debug(`Listening http://localhost:${server.address().port}`);
 });
