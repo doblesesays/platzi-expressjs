@@ -11,7 +11,9 @@
     "dev:inspect": "nodemon --inspect index",
     "dev:debug": "set DEBUG=express:*,app:*& npm run dev",
     "debug": "set DEBUG=express:*,app:*& npm run start",
-    "build": "set NODE_ENV=production& cd public/assets && cleancss -o main.min.css main.css"
+    "build": "set NODE_ENV=production& cd public/assets && cleancss -o main.min.css main.css",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +31,8 @@
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.0",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "chalk": "^2.4.2",
@@ -49,5 +52,6 @@
       "lib",
       "utils"
     ]
-  }
+  },
+  "snyk": true
 }
